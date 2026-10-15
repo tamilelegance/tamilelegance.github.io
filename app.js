@@ -409,14 +409,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function isTypingInInput() {
+    const el = document.activeElement;
+    if (!el) return false;
+    const tag = el.tagName ? el.tagName.toUpperCase() : '';
+    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+  }
+
+  function canStepMaze(r, c, dir) {
+    if (dir === 'up') return r > 0 && !wallsH[r][c];
+    if (dir === 'down') return r < ROWS - 1 && !wallsH[r + 1][c];
+    if (dir === 'left') return c > 0 && !wallsV[r][c];
+    if (dir === 'right') return c < COLS - 1 && !wallsV[r][c + 1];
+    return false;
+  }
+
   function movePlayer(dir) {
-    if (mazeWon) return;
+    if (mazeWon) return false;
     const { r, c } = player;
-    if (dir === 'up' && r > 0 && !wallsH[r][c]) player.r--;
-    else if (dir === 'down' && r < ROWS - 1 && !wallsH[r + 1][c]) player.r++;
-    else if (dir === 'left' && c > 0 && !wallsV[r][c]) player.c--;
-    else if (dir === 'right' && c < COLS - 1 && !wallsV[r][c + 1]) player.c++;
-    else return;
+    if (!canStepMaze(r, c, dir)) return false;
+
+    if (dir === 'up') player.r--;
+    else if (dir === 'down') player.r++;
+    else if (dir === 'left') player.c--;
+    else if (dir === 'right') player.c++;
 
     berries.forEach((b) => {
       if (!b.taken && b.r === player.r && b.c === player.c) {
@@ -438,13 +454,157 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     drawMaze();
+    return true;
+  }
+
+  // BFS Shortest Path Finder so touching/dragging on the Maze Canvas guides Nano smoothly!
+  let autoWalkTimer = null;
+  function stopAutoWalk() {
+    if (autoWalkTimer) {
+      clearInterval(autoWalkTimer);
+      autoWalkTimer = null;
+    }
+  }
+
+  function findMazePath(sr, sc, tr, tc) {
+    if (sr === tr && sc === tc) return [];
+    const queue = [[sr, sc, []]];
+    const seen = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+    seen[sr][sc] = true;
+    const dirs = [
+      ['up', -1, 0],
+      ['down', 1, 0],
+      ['left', 0, -1],
+      ['right', 0, 1]
+    ];
+    while (queue.length > 0) {
+      const [r, c, path] = queue.shift();
+      if (r === tr && c === tc) return path;
+      for (const [dName, dr, dc] of dirs) {
+        const nr = r + dr;
+        const nc = c + dc;
+        if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !seen[nr][nc] && canStepMaze(r, c, dName)) {
+          seen[nr][nc] = true;
+          queue.push([nr, nc, [...path, dName]]);
+        }
+      }
+    }
+    return [];
+  }
+
+  function getMazeCellFromClientXY(clientX, clientY) {
+    const rect = mazeCanvas.getBoundingClientRect();
+    const scaleX = ((clientX - rect.left) / rect.width) * mazeCanvas.width;
+    const scaleY = ((clientY - rect.top) / rect.height) * mazeCanvas.height;
+    const pad = 22;
+    const cellW = (mazeCanvas.width - pad * 2) / COLS;
+    const c = Math.max(0, Math.min(COLS - 1, Math.floor((scaleX - pad) / cellW)));
+    const r = Math.max(0, Math.min(ROWS - 1, Math.floor((scaleY - pad) / cellW)));
+    return { r, c };
+  }
+
+  let mazePointerDown = false;
+  function guideNanoTowardCell(targetR, targetC, isDragMove) {
+    if (mazeWon) return;
+    const path = findMazePath(player.r, player.c, targetR, targetC);
+    if (path.length === 0) return;
+
+    // If dragging finger into an adjacent or close cell, step immediately for responsive finger-follow
+    if (path.length === 1) {
+      stopAutoWalk();
+      movePlayer(path[0]);
+      return;
+    }
+
+    if (isDragMove && path.length <= 4) {
+      stopAutoWalk();
+      movePlayer(path[0]);
+      return;
+    }
+
+    // If the user tapped a cell along the path (up to 10 steps away), walk Nano smoothly along the path!
+    if (!isDragMove && path.length <= 12) {
+      stopAutoWalk();
+      let idx = 0;
+      movePlayer(path[idx++]);
+      autoWalkTimer = setInterval(() => {
+        if (idx >= path.length || mazeWon) {
+          stopAutoWalk();
+          return;
+        }
+        movePlayer(path[idx++]);
+      }, 95);
+    }
+  }
+
+  mazeCanvas.addEventListener('mousedown', (e) => {
+    mazePointerDown = true;
+    const cell = getMazeCellFromClientXY(e.clientX, e.clientY);
+    guideNanoTowardCell(cell.r, cell.c, false);
+  });
+  mazeCanvas.addEventListener('mousemove', (e) => {
+    if (!mazePointerDown) return;
+    const cell = getMazeCellFromClientXY(e.clientX, e.clientY);
+    guideNanoTowardCell(cell.r, cell.c, true);
+  });
+  window.addEventListener('mouseup', () => {
+    mazePointerDown = false;
+  });
+
+  mazeCanvas.addEventListener(
+    'touchstart',
+    (e) => {
+      e.preventDefault();
+      mazePointerDown = true;
+      if (e.touches[0]) {
+        const cell = getMazeCellFromClientXY(e.touches[0].clientX, e.touches[0].clientY);
+        guideNanoTowardCell(cell.r, cell.c, false);
+      }
+    },
+    { passive: false }
+  );
+  mazeCanvas.addEventListener(
+    'touchmove',
+    (e) => {
+      e.preventDefault();
+      if (!mazePointerDown || !e.touches[0]) return;
+      const cell = getMazeCellFromClientXY(e.touches[0].clientX, e.touches[0].clientY);
+      guideNanoTowardCell(cell.r, cell.c, true);
+    },
+    { passive: false }
+  );
+  window.addEventListener('touchend', () => {
+    mazePointerDown = false;
+  });
+
+  // D-Pad Tap + Hold-to-Walk continuous movement on Mobile & Desktop
+  let dpadHoldTimer = null;
+  function stopDpadHold() {
+    if (dpadHoldTimer) {
+      clearInterval(dpadHoldTimer);
+      dpadHoldTimer = null;
+    }
   }
 
   document.querySelectorAll('.dpad-btn[data-dir]').forEach((btn) => {
-    btn.addEventListener('click', () => movePlayer(btn.dataset.dir));
+    const dir = btn.dataset.dir;
+    const startHold = (e) => {
+      e.preventDefault();
+      stopAutoWalk();
+      stopDpadHold();
+      movePlayer(dir);
+      dpadHoldTimer = setInterval(() => movePlayer(dir), 155);
+    };
+    btn.addEventListener('mousedown', startHold);
+    btn.addEventListener('touchstart', startHold, { passive: false });
+    btn.addEventListener('mouseup', stopDpadHold);
+    btn.addEventListener('mouseleave', stopDpadHold);
+    btn.addEventListener('touchend', stopDpadHold);
+    btn.addEventListener('touchcancel', stopDpadHold);
   });
 
   window.addEventListener('keydown', (e) => {
+    if (isTypingInInput()) return;
     const mazePanel = document.getElementById('game-maze');
     if (mazePanel && mazePanel.classList.contains('active')) {
       const keyMap = {
@@ -459,12 +619,16 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       if (keyMap[e.code]) {
         e.preventDefault();
+        stopAutoWalk();
         movePlayer(keyMap[e.code]);
       }
     }
   });
 
-  document.getElementById('maze-new-btn')?.addEventListener('click', generateMaze);
+  document.getElementById('maze-new-btn')?.addEventListener('click', () => {
+    stopAutoWalk();
+    generateMaze();
+  });
   generateMaze();
 
   // ==========================================================================
@@ -688,6 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('keydown', (e) => {
+    if (isTypingInInput()) return;
     const catcherPanel = document.getElementById('game-catcher');
     if (catcherPanel && catcherPanel.classList.contains('active')) {
       if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
@@ -702,6 +867,75 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('catcher-start-btn')?.addEventListener('click', startCatcherGame);
   drawCatcherScene();
+
+  // ==========================================================================
+  // 2B. INTERACTIVE BOOK CAROUSELS (HERO & BOOKS SECTION)
+  // ==========================================================================
+  function setupBookCarousel(trackId) {
+    const track = document.getElementById(trackId);
+    if (!track) return;
+    const cards = Array.from(track.children);
+    if (cards.length === 0) return;
+
+    const dotsWrap = document.querySelector(`.carousel-dots[data-target="${trackId}"]`);
+    const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
+    const prevBtn = document.querySelector(`.carousel-prev[data-target="${trackId}"]`);
+    const nextBtn = document.querySelector(`.carousel-next[data-target="${trackId}"]`);
+    let activeIdx = 0;
+
+    function highlightBook(idx, scrollTrack = true) {
+      activeIdx = (idx + cards.length) % cards.length;
+      cards.forEach((c, i) => c.classList.toggle('carousel-active', i === activeIdx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+
+      if (scrollTrack && track.scrollWidth > track.clientWidth + 10) {
+        const targetCard = cards[activeIdx];
+        const scrollLeft =
+          targetCard.offsetLeft - (track.clientWidth - targetCard.clientWidth) / 2;
+        track.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+      }
+    }
+
+    prevBtn?.addEventListener('click', () => {
+      highlightBook(activeIdx - 1, true);
+      playChime([523.25]);
+    });
+    nextBtn?.addEventListener('click', () => {
+      highlightBook(activeIdx + 1, true);
+      playChime([659.25]);
+    });
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        highlightBook(idx, true);
+        playChime([587.33]);
+      });
+    });
+
+    // Update active dot automatically when swiping on mobile
+    let scrollTimeout = null;
+    track.addEventListener('scroll', () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const center = track.scrollLeft + track.clientWidth / 2;
+        let closestIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((c, idx) => {
+          const cardCenter = c.offsetLeft + c.clientWidth / 2;
+          const diff = Math.abs(center - cardCenter);
+          if (diff < minDiff) {
+            minDiff = diff;
+            closestIdx = idx;
+          }
+        });
+        highlightBook(closestIdx, false);
+      }, 90);
+    });
+
+    highlightBook(0, false);
+  }
+
+  setupBookCarousel('hero-book-shelf');
+  setupBookCarousel('books-grid-carousel');
 
   // ==========================================================================
   // 3. FRONT / BACK COVER TOGGLE ON BOOK CARDS

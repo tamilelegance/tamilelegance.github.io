@@ -80,30 +80,46 @@
         </div>
       </div>
 
-      <!-- Large, Uncropped 3-Book Shelf (Click any book to Peek Inside) -->
-      <div class="hero-book-shelf">
-        <div class="hero-book-card open-peek-btn" data-book="draw" title="Click to preview pages">
-          <div class="hero-book-img-box">
-            <img src="assets/covers/drawing_vol1_front.jpg" alt="The Ultimate Drawing & Activity Book Vol 1" />
+      <!-- Interactive 3-Book Carousel Showcase (Swipe on Mobile or Click Arrows/Dots) -->
+      <div class="book-carousel-wrap">
+        <button type="button" class="carousel-nav-btn carousel-prev" data-target="hero-book-shelf" aria-label="Previous Book">
+          <svg viewBox="0 0 24 24"><path d="M15.4 7.4L14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>
+        </button>
+
+        <div id="hero-book-shelf" class="hero-book-shelf">
+          <div class="hero-book-card open-peek-btn" data-book="draw" title="Click to preview pages">
+            <div class="hero-book-img-box">
+              <img src="assets/covers/drawing_vol1_front.jpg" alt="The Ultimate Drawing & Activity Book Vol 1" />
+            </div>
+            <div class="hero-book-title">The Ultimate Drawing &amp; Activity Book: Vol. 1</div>
+            <span class="hero-book-pill">Peek Inside (58 Pages)</span>
           </div>
-          <div class="hero-book-title">The Ultimate Drawing &amp; Activity Book: Vol. 1</div>
-          <span class="hero-book-pill">Peek Inside (58 Pages)</span>
+
+          <div class="hero-book-card open-peek-btn" data-book="vol1" title="Click to preview pages">
+            <div class="hero-book-img-box">
+              <img src="assets/covers/story_vol1_front.jpg" alt="Adventures of Nano & Friends Volume 1" />
+            </div>
+            <div class="hero-book-title">Adventures of Nano &amp; Friends &mdash; Volume 1</div>
+            <span class="hero-book-pill">Peek Inside (Books I&ndash;V)</span>
+          </div>
+
+          <div class="hero-book-card open-peek-btn" data-book="vol2" title="Click to preview pages">
+            <div class="hero-book-img-box">
+              <img src="assets/covers/story_vol2_front.jpg" alt="Adventures of Nano & Friends Volume 2" />
+            </div>
+            <div class="hero-book-title">Adventures of Nano &amp; Friends &mdash; Volume 2</div>
+            <span class="hero-book-pill">Peek Inside (Books VI&ndash;X)</span>
+          </div>
         </div>
 
-        <div class="hero-book-card open-peek-btn" data-book="vol1" title="Click to preview pages">
-          <div class="hero-book-img-box">
-            <img src="assets/covers/story_vol1_front.jpg" alt="Adventures of Nano & Friends Volume 1" />
-          </div>
-          <div class="hero-book-title">Adventures of Nano &amp; Friends &mdash; Volume 1</div>
-          <span class="hero-book-pill">Peek Inside (Books I&ndash;V)</span>
-        </div>
+        <button type="button" class="carousel-nav-btn carousel-next" data-target="hero-book-shelf" aria-label="Next Book">
+          <svg viewBox="0 0 24 24"><path d="M8.6 16.6L10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg>
+        </button>
 
-        <div class="hero-book-card open-peek-btn" data-book="vol2" title="Click to preview pages">
-          <div class="hero-book-img-box">
-            <img src="assets/covers/story_vol2_front.jpg" alt="Adventures of Nano & Friends Volume 2" />
-          </div>
-          <div class="hero-book-title">Adventures of Nano &amp; Friends &mdash; Volume 2</div>
-          <span class="hero-book-pill">Peek Inside (Books VI&ndash;X)</span>
+        <div class="carousel-dots" data-target="hero-book-shelf">
+          <button type="button" class="carousel-dot active" data-index="0">1. Drawing Book</button>
+          <button type="button" class="carousel-dot" data-index="1">2. Storybook Vol. 1</button>
+          <button type="button" class="carousel-dot" data-index="2">3. Storybook Vol. 2</button>
         </div>
       </div>
     </div>
@@ -152,7 +168,7 @@
         <div>
           <h3 style="font-size: 1.3rem; color: var(--plum);">Game 2: Whispering Woods Endless Treasure Maze</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">
-            Guide <strong>Nano</strong> with your <strong>Arrow Keys</strong> (or the buttons on the right) to collect all <strong>3 Golden Berries</strong> and reach the <strong>Treehouse Goal</strong>!
+            <strong>Easy Touch &amp; Drag:</strong> Slide your finger (or mouse) directly across the maze path to guide <strong>Nano</strong>, tap any path cell, or use the D-Pad / Arrow keys!
           </p>
         </div>
         <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
@@ -164,10 +180,11 @@
       <div class="maze-layout">
         <div>
           <canvas id="maze-canvas" width="520" height="520"></canvas>
+          <p class="maze-touch-hint">Tip: Drag your finger directly on the maze to guide Nano, or tap any cell along the path!</p>
         </div>
         <div style="text-align: center;">
           <h4 style="margin-bottom: 0.4rem;">On-Screen Gamepad</h4>
-          <p style="font-size: 0.84rem; color: var(--text-muted);">Use Arrow Keys / WASD on keyboard, or tap the D-Pad:</p>
+          <p style="font-size: 0.84rem; color: var(--text-muted);">Tap or hold any direction (or drag directly on the maze):</p>
           <div class="dpad-grid" role="group" aria-label="Maze directional controls">
             <button type="button" class="dpad-btn dpad-up" data-dir="up" aria-label="Move Up">
               <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
@@ -418,86 +435,102 @@
       </p>
     </div>
 
-    <div class="books-grid">
-      <!-- BOOK 1 -->
-      <div class="book-showcase-card">
-        <div>
-          <div class="book-cover-stage">
-            <img id="cover-img-draw" src="assets/covers/drawing_vol1_front.jpg" alt="The Ultimate Drawing & Activity Book Vol. 1" />
+    <div class="book-carousel-wrap">
+      <button type="button" class="carousel-nav-btn carousel-prev" data-target="books-grid-carousel" aria-label="Previous Book">
+        <svg viewBox="0 0 24 24"><path d="M15.4 7.4L14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>
+      </button>
+
+      <div id="books-grid-carousel" class="books-grid">
+        <!-- BOOK 1 -->
+        <div class="book-showcase-card">
+          <div>
+            <div class="book-cover-stage">
+              <img id="cover-img-draw" src="assets/covers/drawing_vol1_front.jpg" alt="The Ultimate Drawing & Activity Book Vol. 1" />
+            </div>
+            <div class="book-meta-badges">
+              <span class="meta-badge">58 Pages &bull; A4 Large Format</span>
+              <span class="meta-badge">ISBN: 978-93-345-5896-8</span>
+              <span class="meta-badge">Ages 3&ndash;9</span>
+            </div>
+            <h3>The Ultimate Drawing &amp; Activity Book: Vol. 1</h3>
+            <p class="book-desc">
+              A 3-in-1 screen-free creative treasury featuring <strong>40 bold &amp; easy coloring pages</strong>,
+              <strong>10 brain-boosting puzzles &amp; mazes</strong>, <strong>5 seek-and-find adventures</strong>,
+              and an Official Super Artist Certificate!
+            </p>
           </div>
-          <div class="book-meta-badges">
-            <span class="meta-badge">58 Pages &bull; A4 Large Format</span>
-            <span class="meta-badge">ISBN: 978-93-345-5896-8</span>
-            <span class="meta-badge">Ages 3&ndash;9</span>
+          <div class="book-actions">
+            <button type="button" class="btn btn-peek open-peek-btn" data-book="draw">Peek Inside (Flip Sample Pages)</button>
+            <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
+            <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Amazon Store</a>
           </div>
-          <h3>The Ultimate Drawing &amp; Activity Book: Vol. 1</h3>
-          <p class="book-desc">
-            A 3-in-1 screen-free creative treasury featuring <strong>40 bold &amp; easy coloring pages</strong>,
-            <strong>10 brain-boosting puzzles &amp; mazes</strong>, <strong>5 seek-and-find adventures</strong>,
-            and an Official Super Artist Certificate!
-          </p>
         </div>
-        <div class="book-actions">
-          <button type="button" class="btn btn-peek open-peek-btn" data-book="draw">Peek Inside (Flip Sample Pages)</button>
-          <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
-          <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Amazon Store</a>
+
+        <!-- BOOK 2 -->
+        <div class="book-showcase-card">
+          <div>
+            <div class="book-cover-stage">
+              <img id="cover-img-vol1" src="assets/covers/story_vol1_front.jpg" alt="Adventures of Nano & Friends Volume 1" />
+            </div>
+            <div class="cover-toggle-bar">
+              <button type="button" class="mini-pill-btn cover-toggle-btn active" data-target="cover-img-vol1" data-img="assets/covers/story_vol1_front.jpg">Front Cover</button>
+              <button type="button" class="mini-pill-btn cover-toggle-btn" data-target="cover-img-vol1" data-img="assets/covers/story_vol1_back.jpg">Back Cover (Books I&ndash;V)</button>
+            </div>
+            <div class="book-meta-badges">
+              <span class="meta-badge">Volume 1 &bull; Books I to V</span>
+              <span class="meta-badge">Chapters 1&ndash;30 &bull; 82 Full-Color Pages</span>
+            </div>
+            <h3>Adventures of Nano &amp; Friends &mdash; Volume 1</h3>
+            <p class="book-desc">
+              <strong>5 Complete Storybooks in One!</strong> Join the friends across <em>The Singing Tree</em>,
+              <em>The Grand Sunny Zoo</em>, <em>Night of the Flying Acrobats</em>, <em>Whistle-Cloud Theme Park</em>,
+              and <em>Sunfire Sports Stadium</em>!
+            </p>
+          </div>
+          <div class="book-actions">
+            <button type="button" class="btn btn-peek open-peek-btn" data-book="vol1">Peek Inside (Flip Sample Pages)</button>
+            <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
+            <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Kindle eBook</a>
+          </div>
+        </div>
+
+        <!-- BOOK 3 -->
+        <div class="book-showcase-card">
+          <div>
+            <div class="book-cover-stage">
+              <img id="cover-img-vol2" src="assets/covers/story_vol2_front.jpg" alt="Adventures of Nano & Friends Volume 2" />
+            </div>
+            <div class="cover-toggle-bar">
+              <button type="button" class="mini-pill-btn cover-toggle-btn active" data-target="cover-img-vol2" data-img="assets/covers/story_vol2_front.jpg">Front Cover</button>
+              <button type="button" class="mini-pill-btn cover-toggle-btn" data-target="cover-img-vol2" data-img="assets/covers/story_vol2_back.jpg">Back Cover (Books VI&ndash;X)</button>
+            </div>
+            <div class="book-meta-badges">
+              <span class="meta-badge">Volume 2 &bull; Books VI to X</span>
+              <span class="meta-badge">Chapters 31&ndash;60 &bull; 82 Full-Color Pages</span>
+            </div>
+            <h3>Adventures of Nano &amp; Friends &mdash; Volume 2</h3>
+            <p class="book-desc">
+              <strong>5 More Magical Storybooks in One!</strong> Explore <em>The Whispering Citadel</em>,
+              <em>The Highland Steam Train</em>, <em>Coral Bay Beach &amp; Lighthouse</em>, <em>The Star Dome Planetarium</em>,
+              and <em>Surprise Party for Finn &amp; Quinn</em>!
+            </p>
+          </div>
+          <div class="book-actions">
+            <button type="button" class="btn btn-peek open-peek-btn" data-book="vol2">Peek Inside (Flip Sample Pages)</button>
+            <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
+            <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Kindle eBook</a>
+          </div>
         </div>
       </div>
 
-      <!-- BOOK 2 -->
-      <div class="book-showcase-card">
-        <div>
-          <div class="book-cover-stage">
-            <img id="cover-img-vol1" src="assets/covers/story_vol1_front.jpg" alt="Adventures of Nano & Friends Volume 1" />
-          </div>
-          <div class="cover-toggle-bar">
-            <button type="button" class="mini-pill-btn cover-toggle-btn active" data-target="cover-img-vol1" data-img="assets/covers/story_vol1_front.jpg">Front Cover</button>
-            <button type="button" class="mini-pill-btn cover-toggle-btn" data-target="cover-img-vol1" data-img="assets/covers/story_vol1_back.jpg">Back Cover (Books I&ndash;V)</button>
-          </div>
-          <div class="book-meta-badges">
-            <span class="meta-badge">Volume 1 &bull; Books I to V</span>
-            <span class="meta-badge">Chapters 1&ndash;30 &bull; 82 Full-Color Pages</span>
-          </div>
-          <h3>Adventures of Nano &amp; Friends &mdash; Volume 1</h3>
-          <p class="book-desc">
-            <strong>5 Complete Storybooks in One!</strong> Join the friends across <em>The Singing Tree</em>,
-            <em>The Grand Sunny Zoo</em>, <em>Night of the Flying Acrobats</em>, <em>Whistle-Cloud Theme Park</em>,
-            and <em>Sunfire Sports Stadium</em>!
-          </p>
-        </div>
-        <div class="book-actions">
-          <button type="button" class="btn btn-peek open-peek-btn" data-book="vol1">Peek Inside (Flip Sample Pages)</button>
-          <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
-          <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Kindle eBook</a>
-        </div>
-      </div>
+      <button type="button" class="carousel-nav-btn carousel-next" data-target="books-grid-carousel" aria-label="Next Book">
+        <svg viewBox="0 0 24 24"><path d="M8.6 16.6L10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg>
+      </button>
 
-      <!-- BOOK 3 -->
-      <div class="book-showcase-card">
-        <div>
-          <div class="book-cover-stage">
-            <img id="cover-img-vol2" src="assets/covers/story_vol2_front.jpg" alt="Adventures of Nano & Friends Volume 2" />
-          </div>
-          <div class="cover-toggle-bar">
-            <button type="button" class="mini-pill-btn cover-toggle-btn active" data-target="cover-img-vol2" data-img="assets/covers/story_vol2_front.jpg">Front Cover</button>
-            <button type="button" class="mini-pill-btn cover-toggle-btn" data-target="cover-img-vol2" data-img="assets/covers/story_vol2_back.jpg">Back Cover (Books VI&ndash;X)</button>
-          </div>
-          <div class="book-meta-badges">
-            <span class="meta-badge">Volume 2 &bull; Books VI to X</span>
-            <span class="meta-badge">Chapters 31&ndash;60 &bull; 82 Full-Color Pages</span>
-          </div>
-          <h3>Adventures of Nano &amp; Friends &mdash; Volume 2</h3>
-          <p class="book-desc">
-            <strong>5 More Magical Storybooks in One!</strong> Explore <em>The Whispering Citadel</em>,
-            <em>The Highland Steam Train</em>, <em>Coral Bay Beach &amp; Lighthouse</em>, <em>The Star Dome Planetarium</em>,
-            and <em>Surprise Party for Finn &amp; Quinn</em>!
-          </p>
-        </div>
-        <div class="book-actions">
-          <button type="button" class="btn btn-peek open-peek-btn" data-book="vol2">Peek Inside (Flip Sample Pages)</button>
-          <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
-          <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Kindle eBook</a>
-        </div>
+      <div class="carousel-dots" data-target="books-grid-carousel">
+        <button type="button" class="carousel-dot active" data-index="0">1. Drawing Book</button>
+        <button type="button" class="carousel-dot" data-index="1">2. Storybook Vol. 1</button>
+        <button type="button" class="carousel-dot" data-index="2">3. Storybook Vol. 2</button>
       </div>
     </div>
   </section>
