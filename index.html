@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+  <title>The World of Nano &amp; Friends | Official Books, Games, Bonus Stories &amp; Crafts by Kasiraman</title>
+  <meta name="description" content="Explore the official interactive clubhouse for Adventures of Nano & Friends (Volumes 1 & 2) and The Ultimate Drawing & Activity Book by Kasiraman. Play 3 endless kids games, color 5 exclusive bonus pages online, read our exclusive bonus story, and download free crafts!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="navbar">
+    <a href="#" class="brand-logo">
+      <img src="assets/characters/nano_token.png" alt="Nano Logo" />
+      <span>Nano &amp; Friends Clubhouse</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#books">Our Books</a></li>
+      <li><a href="#games">Play Games</a></li>
+      <li><a href="#coloring-studio">Bonus Coloring</a></li>
+      <li><a href="#free-crafts">Bonus Story &amp; Crafts</a></li>
+      <li><a href="#certificate">Certificate</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="https://www.youtube.com/@TamilElegance" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-yt" title="Watch Nano & Friends on YouTube (@TamilElegance)">
+        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        <span>YouTube</span>
+      </a>
+      <a href="https://www.instagram.com/tamil.elegance/" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-ig" title="Follow @tamil.elegance on Instagram">
+        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.2.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.2-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8 0-3.2 0-3.6.1-4.8.1-3.2 1.7-4.8 4.9-4.9 1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg>
+        <span>Instagram</span>
+      </a>
+      <div class="star-counter-pill" title="Play games, color pages & read bonus stories to earn Explorer Stars!">
+        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3 1.2-6.8-5-4.9 6.9-1z"/></svg>
+        <span>Stars: <strong id="star-count-display">5</strong></span>
+      </div>
+      <button id="mode-toggle-btn" class="mode-btn">Night Mode</button>
+    </div>
+  </header>
+
+  <!-- HERO STAGE (LARGE, UNCROPPED 3-BOOK SHOWCASE) -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>Created by Kasiraman &bull; Official Books, Endless Games &amp; Bonus Club (Ages 3&ndash;9)</span>
+        </div>
+        <h1>
+          Read, Dream &amp; <span class="highlight">Explore</span> with Nano &amp; Friends!
+        </h1>
+        <p class="hero-subtitle">
+          Welcome to the official Whispering Woods &amp; Coral Bay Clubhouse! Play 3 endless brain-boosting games,
+          read our <strong>Web-Exclusive Bonus Story (Book XI)</strong>, color <strong>5 brand-new bonus pages</strong> not found in the printed books,
+          and watch our animated adventures on <strong>YouTube &amp; Instagram</strong>!
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#games" class="btn btn-primary">
+            Play 3 Endless Games
+          </a>
+          <a href="#free-crafts" class="btn btn-secondary">
+            Exclusive Bonus Story &amp; Crafts
+          </a>
+          <a href="https://www.youtube.com/@TamilElegance" target="_blank" rel="noopener noreferrer" class="btn social-yt" style="color: #fff;">
+            Watch on YouTube
+          </a>
+          <a href="https://www.instagram.com/tamil.elegance/" target="_blank" rel="noopener noreferrer" class="btn social-ig" style="color: #fff;">
+            Follow on Instagram
+          </a>
+        </div>
+      </div>
+
+      <!-- Large, Uncropped 3-Book Shelf (Click any book to Peek Inside) -->
+      <div class="hero-book-shelf">
+        <div class="hero-book-card open-peek-btn" data-book="draw" title="Click to preview pages">
+          <div class="hero-book-img-box">
+            <img src="assets/covers/drawing_vol1_front.jpg" alt="The Ultimate Drawing & Activity Book Vol 1" />
+          </div>
+          <div class="hero-book-title">The Ultimate Drawing &amp; Activity Book: Vol. 1</div>
+          <span class="hero-book-pill">Peek Inside (58 Pages)</span>
+        </div>
+
+        <div class="hero-book-card open-peek-btn" data-book="vol1" title="Click to preview pages">
+          <div class="hero-book-img-box">
+            <img src="assets/covers/story_vol1_front.jpg" alt="Adventures of Nano & Friends Volume 1" />
+          </div>
+          <div class="hero-book-title">Adventures of Nano &amp; Friends &mdash; Volume 1</div>
+          <span class="hero-book-pill">Peek Inside (Books I&ndash;V)</span>
+        </div>
+
+        <div class="hero-book-card open-peek-btn" data-book="vol2" title="Click to preview pages">
+          <div class="hero-book-img-box">
+            <img src="assets/covers/story_vol2_front.jpg" alt="Adventures of Nano & Friends Volume 2" />
+          </div>
+          <div class="hero-book-title">Adventures of Nano &amp; Friends &mdash; Volume 2</div>
+          <span class="hero-book-pill">Peek Inside (Books VI&ndash;X)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: WHISPERING WOODS ARCADE (3 INFINITELY REPLAYABLE GAMES) -->
+  <section id="games" class="section">
+    <div class="section-header">
+      <span class="section-tag">Whispering Woods Daily Arcade &bull; Earn Explorer Stars</span>
+      <h2>Play 3 Endless Brain-Boosting Games!</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Every single round generates a brand-new challenge! Win games to collect <strong>Explorer Stars</strong>&mdash;saved automatically in your browser so you can build your score every visit.
+      </p>
+    </div>
+
+    <div class="games-tabs">
+      <button class="game-tab-btn active" data-tab="game-memory">Game 1: Memory Match</button>
+      <button class="game-tab-btn" data-tab="game-maze">Game 2: Endless Treasure Maze</button>
+      <button class="game-tab-btn" data-tab="game-catcher">Game 3: Endless Berry &amp; Star Catcher</button>
+    </div>
+
+    <!-- GAME 1: MEMORY MATCH -->
+    <div id="game-memory" class="game-panel active">
+      <div class="game-top-bar">
+        <div>
+          <h3 style="font-size: 1.3rem; color: var(--plum);">Game 1: Nano &amp; Friends Memory Match</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Flip 2 cards at a time to match all 6 pairs! Cards shuffle into a brand-new board every game (+5 Stars)!</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <span style="font-weight: 800;">Moves: <strong id="mem-moves">0</strong></span>
+          <span style="font-weight: 800;">Matches: <strong id="mem-matches">0 / 6</strong></span>
+          <span style="font-weight: 800; color: var(--teal);">Best Score: <strong id="mem-best">&mdash;</strong></span>
+          <button id="mem-restart-btn" class="btn btn-primary" style="padding: 0.55rem 1.1rem; font-size: 0.88rem;">Shuffle New Game</button>
+        </div>
+      </div>
+
+      <div id="memory-grid" class="memory-grid"></div>
+      <div id="mem-win-banner" style="display: none; text-align: center; margin-top: 1.25rem; padding: 1rem; background: #d1fae5; color: #065f46; border-radius: 14px; font-weight: 800;">
+        Hooray! You matched all 6 pairs and earned <strong>+5 Explorer Stars</strong>! Click "Shuffle New Game" for a brand-new board!
+      </div>
+    </div>
+
+    <!-- GAME 2: ENDLESS TREASURE MAZE -->
+    <div id="game-maze" class="game-panel">
+      <div class="game-top-bar">
+        <div>
+          <h3 style="font-size: 1.3rem; color: var(--plum);">Game 2: Whispering Woods Endless Treasure Maze</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Guide <strong>Nano</strong> with your <strong>Arrow Keys</strong> (or the buttons on the right) to collect all <strong>3 Golden Berries</strong> and reach the <strong>Treehouse Goal</strong>!
+          </p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <span style="font-weight: 800;">Berries Collected: <strong id="maze-berries">0 / 3</strong></span>
+          <button id="maze-new-btn" class="btn btn-primary" style="padding: 0.55rem 1.1rem; font-size: 0.88rem;">Generate Brand-New Maze</button>
+        </div>
+      </div>
+
+      <div class="maze-layout">
+        <div>
+          <canvas id="maze-canvas" width="520" height="520"></canvas>
+        </div>
+        <div style="text-align: center;">
+          <h4 style="margin-bottom: 0.4rem;">On-Screen Gamepad</h4>
+          <p style="font-size: 0.84rem; color: var(--text-muted);">Use Arrow Keys / WASD on keyboard, or tap the D-Pad:</p>
+          <div class="dpad-grid" role="group" aria-label="Maze directional controls">
+            <button type="button" class="dpad-btn dpad-up" data-dir="up" aria-label="Move Up">
+              <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+              <span>UP</span>
+            </button>
+            <button type="button" class="dpad-btn dpad-left" data-dir="left" aria-label="Move Left">
+              <svg viewBox="0 0 24 24"><path d="M4 12l8-8v5h8v6h-8v5z"/></svg>
+              <span>LEFT</span>
+            </button>
+            <div class="dpad-center" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3 1.2-6.8-5-4.9 6.9-1z"/></svg>
+            </div>
+            <button type="button" class="dpad-btn dpad-right" data-dir="right" aria-label="Move Right">
+              <svg viewBox="0 0 24 24"><path d="M20 12l-8 8v-5H4V9h8V4z"/></svg>
+              <span>RIGHT</span>
+            </button>
+            <button type="button" class="dpad-btn dpad-down" data-dir="down" aria-label="Move Down">
+              <svg viewBox="0 0 24 24"><path d="M12 20l8-8h-5V4H9v8H4z"/></svg>
+              <span>DOWN</span>
+            </button>
+          </div>
+          <div id="maze-status-msg" style="margin-top: 1.2rem; font-weight: 800; color: var(--teal); min-height: 2.5rem;">
+            Collect all 3 Golden Berries, then enter the Treehouse!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME 3: ENDLESS GOLDEN HONEY-BERRY & STAR CATCHER -->
+    <div id="game-catcher" class="game-panel">
+      <div class="game-top-bar">
+        <div>
+          <h3 style="font-size: 1.3rem; color: var(--plum);">Game 3: Endless Golden Berry &amp; Star Catcher!</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Move <strong>Nano's Picnic Basket</strong> left &amp; right (drag on screen, use Arrow keys, or tap Left/Right) to catch falling <strong>Golden Berries (+10)</strong> &amp; <strong>Stars (+25)</strong> while dodging brown pinecones!
+          </p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <span style="font-weight: 800;">Score: <strong id="catcher-score">0</strong></span>
+          <span style="font-weight: 800; color: #dc2626;">Lives: <strong id="catcher-lives">3</strong></span>
+          <span style="font-weight: 800; color: var(--teal);">High Score: <strong id="catcher-best">0</strong></span>
+          <button id="catcher-start-btn" class="btn btn-primary" style="padding: 0.55rem 1.1rem; font-size: 0.88rem;">Start / Restart Game</button>
+        </div>
+      </div>
+
+      <div class="maze-layout">
+        <div>
+          <canvas id="catcher-canvas" width="520" height="520"></canvas>
+        </div>
+        <div style="text-align: center;">
+          <h4 style="margin-bottom: 0.4rem;">Basket Controls</h4>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+            Slide your finger or mouse directly across the game canvas, use Left/Right Arrow keys, or tap below:
+          </p>
+          <div class="catcher-controls">
+            <button type="button" id="catcher-left-btn" class="catcher-btn" aria-label="Move Basket Left">
+              <svg viewBox="0 0 24 24"><path d="M4 12l8-8v5h8v6h-8v5z"/></svg>
+              <span>LEFT</span>
+            </button>
+            <button type="button" id="catcher-right-btn" class="catcher-btn" aria-label="Move Basket Right">
+              <span>RIGHT</span>
+              <svg viewBox="0 0 24 24"><path d="M20 12l-8 8v-5H4V9h8V4z"/></svg>
+            </button>
+          </div>
+          <div id="catcher-status-msg" style="margin-top: 1.2rem; font-weight: 800; color: var(--plum); min-height: 2.5rem;">
+            Every 100 points awards +3 Explorer Stars automatically!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FREE PRINTABLE CRAFTS, EXCLUSIVE BONUS STORY & 5 BONUS PAGES -->
+  <section id="free-crafts" class="section">
+    <div class="section-header">
+      <span class="section-tag">100% Exclusive Website Bonus Vault (Not in the Printed Books!)</span>
+      <h2>Free Bonus Story, 5 Bonus Coloring Pages &amp; DIY Crafts!</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Every download below is <strong>brand-new bonus content</strong> created specially for visitors to our clubhouse&mdash;including <em>Book XI: The Secret Treehouse Lantern Night</em> and 5 exclusive coloring &amp; puzzle pages!
+      </p>
+    </div>
+
+    <div class="crafts-grid">
+      <!-- Bonus 1: Exclusive Bonus Story (Book XI) -->
+      <div class="craft-card">
+        <div>
+          <div class="craft-preview">
+            <img src="assets/previews/bonus_story_prev.jpg" alt="Exclusive Bonus Story: The Secret Treehouse Lantern Night" />
+          </div>
+          <span class="craft-tag">Exclusive Bonus Story (Book XI)</span>
+          <h3>Bonus Story: The Secret Treehouse Lantern Night</h3>
+          <p>
+            A brand-new <strong>5-page full-color illustrated story + Doodle challenge</strong> not found in Volumes 1 or 2! Read online right now or download the printable PDF.
+          </p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <button type="button" class="btn btn-peek open-peek-btn" data-book="bonus_story">Read Bonus Story Online (5 Pages)</button>
+          <a href="downloads/Adventures_of_Nano_Vol1_Free_Story_Preview.pdf" download class="btn btn-primary">
+            Download Bonus Story PDF
+          </a>
+        </div>
+      </div>
+
+      <!-- Bonus 2: 5 Brand-New Exclusive Bonus Coloring & Puzzle Pages -->
+      <div class="craft-card">
+        <div>
+          <div class="craft-preview">
+            <img src="assets/previews/bonus_coloring_prev.jpg" alt="5 Exclusive Bonus Coloring & Activity Pages" />
+          </div>
+          <span class="craft-tag">5 Brand-New Bonus Pages</span>
+          <h3>5 Exclusive Bonus Coloring &amp; Puzzle Pack</h3>
+          <p>
+            5 brand-new A4 pages not in the 58-page book: <em>Oak Treehouse Party</em>, <em>Coral Reef Submarine</em>, <em>Honey-Berry Bakery</em>, <em>Rainbow Hot-Air Balloon &amp; Maze</em>, and <em>Treasure Island &amp; Word Search</em>!
+          </p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <button type="button" class="btn btn-peek open-peek-btn" data-book="bonus_coloring">Preview All 5 Bonus Pages</button>
+          <a href="downloads/Free_5_Page_Coloring_and_Maze_Pack.pdf" download class="btn btn-primary">
+            Download 5 Bonus Pages PDF
+          </a>
+        </div>
+      </div>
+
+      <!-- Bonus 3: DIY Bookmarks -->
+      <div class="craft-card">
+        <div>
+          <div class="craft-preview">
+            <img src="assets/previews/craft_bookmarks_prev.jpg" alt="DIY Cut-Out Character Bookmarks Craft" />
+          </div>
+          <span class="craft-tag">Cut-Out Craft + Reading Log</span>
+          <h3>5 DIY Character Bookmarks &amp; Tracker</h3>
+          <p>
+            Print and cut along the dashed lines to make 5 colorful bookmarks (Nano, Kuttu, MJ, Oreo &amp; Mickey) with reading tracker stars to color after every chapter!
+          </p>
+        </div>
+        <a href="downloads/DIY_Cut_Out_Character_Bookmarks_Craft.pdf" download class="btn btn-primary">
+          Download Bookmarks PDF
+        </a>
+      </div>
+
+      <!-- Bonus 4: DIY Finger Puppets -->
+      <div class="craft-card">
+        <div>
+          <div class="craft-preview">
+            <img src="assets/previews/craft_puppets_prev.jpg" alt="DIY Finger Puppets Craft Sheet" />
+          </div>
+          <span class="craft-tag">Cut &amp; Tape Craft</span>
+          <h3>Storybook Finger Puppets Sheet</h3>
+          <p>
+            Cut out the 5 wrap-around finger bands, tape them around your fingers, and put on your own Whispering Woods puppet show at bedtime!
+          </p>
+        </div>
+        <a href="downloads/DIY_Storybook_Finger_Puppets_Craft.pdf" download class="btn btn-primary">
+          Download Finger Puppets PDF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: LIVE IN-BROWSER COLORING STUDIO (WITH ALL 5 NEW BONUS PAGES) -->
+  <section id="coloring-studio" class="section">
+    <div class="section-header">
+      <span class="section-tag">Interactive Bonus Coloring Studio</span>
+      <h2>Color All 5 Exclusive Bonus Pages Online!</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Pick any of our <strong>5 brand-new Exclusive Bonus Pages</strong> (Treehouse Party, Coral Submarine, Honey-Berry Bakery, Hot-Air Balloon Maze, or Treasure Island Word Search), choose a crayon color, and paint right on screen!
+      </p>
+    </div>
+
+    <div class="studio-box">
+      <div class="studio-controls">
+        <div>
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.05rem;">1. Choose a Bonus Page (1&ndash;5):</h3>
+          <div class="page-thumbs">
+            <button type="button" class="page-thumb-btn active" data-src="assets/coloring/coloring_1.png" title="Bonus 1: Treehouse Party">
+              <img src="assets/coloring/coloring_1.png" alt="Treehouse Party" />
+              <span>1. Treehouse</span>
+            </button>
+            <button type="button" class="page-thumb-btn" data-src="assets/coloring/coloring_2.png" title="Bonus 2: Coral Submarine">
+              <img src="assets/coloring/coloring_2.png" alt="Coral Submarine" />
+              <span>2. Submarine</span>
+            </button>
+            <button type="button" class="page-thumb-btn" data-src="assets/coloring/coloring_3.png" title="Bonus 3: Honey-Berry Bakery">
+              <img src="assets/coloring/coloring_3.png" alt="Honey-Berry Bakery" />
+              <span>3. Bakery</span>
+            </button>
+            <button type="button" class="page-thumb-btn" data-src="assets/coloring/coloring_4.png" title="Bonus 4: Hot-Air Balloon & Maze">
+              <img src="assets/coloring/coloring_4.png" alt="Hot-Air Balloon & Maze" />
+              <span>4. Sky Maze</span>
+            </button>
+            <button type="button" class="page-thumb-btn" data-src="assets/coloring/coloring_5.png" title="Bonus 5: Treasure Island & Word Search">
+              <img src="assets/coloring/coloring_5.png" alt="Treasure Island & Word Search" />
+              <span>5. Island</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.05rem;">2. Pick a Crayon Color:</h3>
+          <div class="crayon-palette">
+            <button class="crayon-swatch active" style="background: #f59e0b;" data-color="#f59e0b" title="Golden Honey"></button>
+            <button class="crayon-swatch" style="background: #ea580c;" data-color="#ea580c" title="Nano Orange"></button>
+            <button class="crayon-swatch" style="background: #ef4444;" data-color="#ef4444" title="Bowtie Red"></button>
+            <button class="crayon-swatch" style="background: #ec4899;" data-color="#ec4899" title="Coral Pink"></button>
+            <button class="crayon-swatch" style="background: #a855f7;" data-color="#a855f7" title="Berry Purple"></button>
+            <button class="crayon-swatch" style="background: #3b82f6;" data-color="#3b82f6" title="Varsity Blue"></button>
+            <button class="crayon-swatch" style="background: #06b6d4;" data-color="#06b6d4" title="Sky Aqua"></button>
+            <button class="crayon-swatch" style="background: #10b981;" data-color="#10b981" title="Kuttu Mint"></button>
+            <button class="crayon-swatch" style="background: #84cc16;" data-color="#84cc16" title="Meadow Green"></button>
+            <button class="crayon-swatch" style="background: #fde047;" data-color="#fde047" title="Sunshine Yellow"></button>
+            <button class="crayon-swatch" style="background: #a16207;" data-color="#a16207" title="Woodland Brown"></button>
+            <button class="crayon-swatch" style="background: #ffffff; color: #333;" data-color="#ffffff" title="Eraser">ERASE</button>
+          </div>
+        </div>
+
+        <div>
+          <label for="brush-size" style="font-weight: 800; display: block; margin-bottom: 0.35rem;">
+            3. Crayon Size:
+          </label>
+          <input id="brush-size" type="range" min="8" max="64" value="28" style="width: 100%; accent-color: var(--coral);" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+          <button id="save-artwork-btn" class="btn btn-primary">
+            Save My Colored Page (PNG)
+          </button>
+          <button id="clear-canvas-btn" class="btn btn-secondary">
+            Start Fresh / Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive Canvas Stage -->
+      <div class="canvas-stage">
+        <canvas id="paint-canvas"></canvas>
+        <img id="lineart-overlay" src="assets/coloring/coloring_1.png" alt="Coloring Line Art" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE OFFICIAL BOOK COLLECTION -->
+  <section id="books" class="section">
+    <div class="section-header">
+      <span class="section-tag">Official Print &amp; Kindle Editions</span>
+      <h2>Collect the Books by Kasiraman</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Click <strong>"Peek Inside"</strong> on any book to flip through sample pages, or order your print copy on <strong>Pothi.com</strong> and eBook on <strong>Amazon Kindle</strong>!
+      </p>
+    </div>
+
+    <div class="books-grid">
+      <!-- BOOK 1 -->
+      <div class="book-showcase-card">
+        <div>
+          <div class="book-cover-stage">
+            <img id="cover-img-draw" src="assets/covers/drawing_vol1_front.jpg" alt="The Ultimate Drawing & Activity Book Vol. 1" />
+          </div>
+          <div class="book-meta-badges">
+            <span class="meta-badge">58 Pages &bull; A4 Large Format</span>
+            <span class="meta-badge">ISBN: 978-93-345-5896-8</span>
+            <span class="meta-badge">Ages 3&ndash;9</span>
+          </div>
+          <h3>The Ultimate Drawing &amp; Activity Book: Vol. 1</h3>
+          <p class="book-desc">
+            A 3-in-1 screen-free creative treasury featuring <strong>40 bold &amp; easy coloring pages</strong>,
+            <strong>10 brain-boosting puzzles &amp; mazes</strong>, <strong>5 seek-and-find adventures</strong>,
+            and an Official Super Artist Certificate!
+          </p>
+        </div>
+        <div class="book-actions">
+          <button type="button" class="btn btn-peek open-peek-btn" data-book="draw">Peek Inside (Flip Sample Pages)</button>
+          <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
+          <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Amazon Store</a>
+        </div>
+      </div>
+
+      <!-- BOOK 2 -->
+      <div class="book-showcase-card">
+        <div>
+          <div class="book-cover-stage">
+            <img id="cover-img-vol1" src="assets/covers/story_vol1_front.jpg" alt="Adventures of Nano & Friends Volume 1" />
+          </div>
+          <div class="cover-toggle-bar">
+            <button type="button" class="mini-pill-btn cover-toggle-btn active" data-target="cover-img-vol1" data-img="assets/covers/story_vol1_front.jpg">Front Cover</button>
+            <button type="button" class="mini-pill-btn cover-toggle-btn" data-target="cover-img-vol1" data-img="assets/covers/story_vol1_back.jpg">Back Cover (Books I&ndash;V)</button>
+          </div>
+          <div class="book-meta-badges">
+            <span class="meta-badge">Volume 1 &bull; Books I to V</span>
+            <span class="meta-badge">Chapters 1&ndash;30 &bull; 82 Full-Color Pages</span>
+          </div>
+          <h3>Adventures of Nano &amp; Friends &mdash; Volume 1</h3>
+          <p class="book-desc">
+            <strong>5 Complete Storybooks in One!</strong> Join the friends across <em>The Singing Tree</em>,
+            <em>The Grand Sunny Zoo</em>, <em>Night of the Flying Acrobats</em>, <em>Whistle-Cloud Theme Park</em>,
+            and <em>Sunfire Sports Stadium</em>!
+          </p>
+        </div>
+        <div class="book-actions">
+          <button type="button" class="btn btn-peek open-peek-btn" data-book="vol1">Peek Inside (Flip Sample Pages)</button>
+          <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
+          <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Kindle eBook</a>
+        </div>
+      </div>
+
+      <!-- BOOK 3 -->
+      <div class="book-showcase-card">
+        <div>
+          <div class="book-cover-stage">
+            <img id="cover-img-vol2" src="assets/covers/story_vol2_front.jpg" alt="Adventures of Nano & Friends Volume 2" />
+          </div>
+          <div class="cover-toggle-bar">
+            <button type="button" class="mini-pill-btn cover-toggle-btn active" data-target="cover-img-vol2" data-img="assets/covers/story_vol2_front.jpg">Front Cover</button>
+            <button type="button" class="mini-pill-btn cover-toggle-btn" data-target="cover-img-vol2" data-img="assets/covers/story_vol2_back.jpg">Back Cover (Books VI&ndash;X)</button>
+          </div>
+          <div class="book-meta-badges">
+            <span class="meta-badge">Volume 2 &bull; Books VI to X</span>
+            <span class="meta-badge">Chapters 31&ndash;60 &bull; 82 Full-Color Pages</span>
+          </div>
+          <h3>Adventures of Nano &amp; Friends &mdash; Volume 2</h3>
+          <p class="book-desc">
+            <strong>5 More Magical Storybooks in One!</strong> Explore <em>The Whispering Citadel</em>,
+            <em>The Highland Steam Train</em>, <em>Coral Bay Beach &amp; Lighthouse</em>, <em>The Star Dome Planetarium</em>,
+            and <em>Surprise Party for Finn &amp; Quinn</em>!
+          </p>
+        </div>
+        <div class="book-actions">
+          <button type="button" class="btn btn-peek open-peek-btn" data-book="vol2">Peek Inside (Flip Sample Pages)</button>
+          <a href="https://store.pothi.com/" target="_blank" rel="noopener noreferrer" class="btn btn-pothi">Print Book (Pothi)</a>
+          <a href="https://www.amazon.in/" target="_blank" rel="noopener noreferrer" class="btn btn-amazon">Kindle eBook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: MEET THE 5 FRIENDS -->
+  <section id="friends" class="section">
+    <div class="section-header">
+      <span class="section-tag">Whispering Woods &amp; Coral Bay Crew</span>
+      <h2>Meet the 5 Inseparable Friends</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Five gentle storybook companions who celebrate curiosity, teamwork, kindness, and the joy of belonging across every adventure.
+      </p>
+    </div>
+
+    <div class="friends-grid">
+      <div class="friend-card">
+        <div class="friend-img-wrap">
+          <img src="assets/characters/nano.jpg" alt="Nano the Golden Monkey" />
+        </div>
+        <span class="friend-role">Curious Leader</span>
+        <h3>Nano</h3>
+        <p>Cheerful golden capuchin monkey in his bright orange hoodie who turns every walk into a grand discovery!</p>
+      </div>
+
+      <div class="friend-card">
+        <div class="friend-img-wrap">
+          <img src="assets/characters/kuttu.jpg" alt="Kuttu the Gentle Koala" />
+        </div>
+        <span class="friend-role">Heart of the Team</span>
+        <h3>Kuttu</h3>
+        <p>Gentle grey koala in his cozy mint-green cardigan who notices quiet wonders and keeps everyone calm and cared for.</p>
+      </div>
+
+      <div class="friend-card">
+        <div class="friend-img-wrap">
+          <img src="assets/characters/mj.jpg" alt="MJ the Clever Raccoon" />
+        </div>
+        <span class="friend-role">Navigator &amp; Inventor</span>
+        <h3>MJ</h3>
+        <p>Clever raccoon in round spectacles and varsity jacket who carries his trusty brass pocket compass everywhere.</p>
+      </div>
+
+      <div class="friend-card">
+        <div class="friend-img-wrap">
+          <img src="assets/characters/oreo.jpg" alt="Oreo the Playful Puppy" />
+        </div>
+        <span class="friend-role">Joyful Energy</span>
+        <h3>Oreo</h3>
+        <p>Fluffy black-and-white Shih Tzu puppy in a royal-blue cable-knit sweater whose happy tail never stops wagging!</p>
+      </div>
+
+      <div class="friend-card">
+        <div class="friend-img-wrap">
+          <img src="assets/characters/mickey.jpg" alt="Mickey the Tiny Hamster" />
+        </div>
+        <span class="friend-role">Smallest &amp; Bravest</span>
+        <h3>Mickey</h3>
+        <p>Apple-sized golden hamster in a neat red silk bowtie who proves that even the smallest friend can have the biggest heart!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: PROPORTIONAL PERSONALIZED CERTIFICATE GENERATOR -->
+  <section id="certificate" class="section">
+    <div class="section-header">
+      <span class="section-tag">Instant Personalized Keepsake</span>
+      <h2>Create Your Child's Official Certificate!</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">
+        Type your child's name below to watch their custom A4 landscape certificate update live, then click <strong>Download Certificate</strong> to print and frame at home!
+      </p>
+    </div>
+
+    <div class="cert-generator">
+      <div class="cert-form">
+        <h3>Customize Your Award</h3>
+        <div>
+          <label for="child-name-input">Child's Name:</label>
+          <input id="child-name-input" type="text" placeholder="e.g. Aarav / Diya" value="Aarav" maxlength="26" autocomplete="off" />
+        </div>
+
+        <div>
+          <label for="cert-award-select">Choose Certificate Title:</label>
+          <select id="cert-award-select">
+            <option value="Official Whispering Woods Explorer">Official Whispering Woods Explorer</option>
+            <option value="Super Artist &amp; Master Colorist">Super Artist &amp; Master Colorist</option>
+            <option value="Coral Bay Star Reader Award">Coral Bay Star Reader Award</option>
+            <option value="Kindness &amp; Friendship Champion">Kindness &amp; Friendship Champion</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="cert-char-select">Favorite Best Buddy Seal:</label>
+          <select id="cert-char-select">
+            <option value="nano">Nano the Curious Monkey</option>
+            <option value="kuttu">Kuttu the Gentle Koala</option>
+            <option value="mj">MJ the Clever Raccoon</option>
+            <option value="oreo">Oreo the Playful Puppy</option>
+            <option value="mickey">Mickey the Brave Hamster</option>
+          </select>
+        </div>
+
+        <button type="button" id="download-cert-btn" class="btn btn-primary" style="margin-top: 0.4rem;">
+          Download Certificate (High-Res PNG)
+        </button>
+      </div>
+
+      <div class="cert-preview-wrap">
+        <canvas id="cert-canvas" width="1400" height="990"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: WATCH & FOLLOW COMMUNITY BANNER -->
+  <section class="section" style="padding-top: 1rem;">
+    <div class="social-community-banner">
+      <span class="section-tag" style="background: var(--gold-light); color: #92400e;">Join Our 300+ Squad &amp; Growing Family!</span>
+      <h2 style="font-size: clamp(1.65rem, 3vw, 2.35rem); margin: 0.6rem 0; color: #fff;">
+        Watch Nano, Kuttu, MJ, Oreo &amp; Mickey Come Alive in Video!
+      </h2>
+      <p style="max-width: 680px; margin: 0 auto 1.6rem; opacity: 0.92; font-size: 1.02rem; line-height: 1.55;">
+        Subscribe to our official <strong>YouTube Channel (@TamilElegance)</strong> for animated comedy shorts &amp; storybook adventures, and follow <strong>@tamil.elegance on Instagram</strong> for daily reels, behind-the-scenes art, and new book announcements!
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="https://www.youtube.com/@TamilElegance" target="_blank" rel="noopener noreferrer" class="btn social-yt" style="color: #fff; font-size: 1rem; padding: 0.9rem 1.7rem;">
+          Subscribe on YouTube (@TamilElegance)
+        </a>
+        <a href="https://www.instagram.com/tamil.elegance/" target="_blank" rel="noopener noreferrer" class="btn social-ig" style="color: #fff; font-size: 1rem; padding: 0.9rem 1.7rem;">
+          Follow on Instagram (@tamil.elegance)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PEEK INSIDE BOOK / BONUS STORY MODAL -->
+  <div id="peek-modal" class="modal-backdrop">
+    <div class="modal-box">
+      <button type="button" id="modal-close-btn" class="modal-close" title="Close">X</button>
+      <h3 id="modal-book-title" style="font-size: 1.2rem; color: var(--plum); padding-right: 2rem;">Book Preview</h3>
+      <img id="modal-page-img" class="modal-page-view" src="assets/covers/story_vol1_front.jpg" alt="Book Page Preview" />
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.85rem; flex-wrap: wrap;">
+        <button type="button" id="modal-prev-btn" class="btn btn-secondary" style="padding: 0.55rem 1.15rem;">&larr; Previous Page</button>
+        <span id="modal-page-counter" style="font-weight: 800; font-size: 0.92rem;">Page 1 of 6</span>
+        <button type="button" id="modal-next-btn" class="btn btn-primary" style="padding: 0.55rem 1.15rem;">Next Page &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="max-width: 820px; margin: 0 auto;">
+      <h3 style="font-size: 1.45rem; margin-bottom: 0.5rem; color: var(--gold-light);">
+        The World of Nano &amp; Friends &bull; Tamil Elegance Publications
+      </h3>
+      <p style="opacity: 0.85; font-size: 0.94rem; margin-bottom: 1.2rem;">
+        Created &amp; Illustrated by <strong>Kasiraman</strong> &bull; Inspiring joyful reading, screen-free creativity, and imagination for children ages 3&ndash;9.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 0.85rem; margin-bottom: 1.2rem; flex-wrap: wrap;">
+        <a href="https://www.youtube.com/@TamilElegance" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-yt">
+          YouTube: @TamilElegance
+        </a>
+        <a href="https://www.instagram.com/tamil.elegance/" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-ig">
+          Instagram: @tamil.elegance
+        </a>
+      </div>
+      <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.16); border: 1.5px solid #10b981; color: #a7f3d0; padding: 6px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; margin-bottom: 1.1rem;">
+        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4zm-2 16l-4-4 1.4-1.4 2.6 2.6 6.6-6.6 1.4 1.4-8 8z"/></svg>
+        <span>100% Kid-Safe &amp; CSP Secured &bull; Zero Ads &bull; Zero Personal Data Collection</span>
+      </div>
+      <p style="opacity: 0.65; font-size: 0.82rem;">
+        &copy; 2026 Kasiraman. All rights reserved. &bull; Official Website: <strong>www.tamilelegance.co.in</strong>
+      </p>
+    </div>
+  </footer>
+
+  <script src="assets/canvas_safe_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
