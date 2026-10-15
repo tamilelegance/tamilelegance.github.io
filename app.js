@@ -869,7 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
   drawCatcherScene();
 
   // ==========================================================================
-  // 2B. INTERACTIVE BOOK CAROUSELS (HERO & BOOKS SECTION)
+  // 2B. INSTAGRAM-STYLE BOOK CAROUSELS (PC & MOBILE — AUTO-SCALES FOR FUTURE BOOKS)
   // ==========================================================================
   function setupBookCarousel(trackId) {
     const track = document.getElementById(trackId);
@@ -877,22 +877,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = Array.from(track.children);
     if (cards.length === 0) return;
 
+    const counterBadge = document.querySelector(`.ig-carousel-counter[data-target="${trackId}"]`);
     const dotsWrap = document.querySelector(`.carousel-dots[data-target="${trackId}"]`);
-    const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
     const prevBtn = document.querySelector(`.carousel-prev[data-target="${trackId}"]`);
     const nextBtn = document.querySelector(`.carousel-next[data-target="${trackId}"]`);
+
+    // Automatically generate any missing dots if more books are added in the future
+    if (dotsWrap) {
+      const existingDots = dotsWrap.querySelectorAll('.carousel-dot').length;
+      for (let i = existingDots; i < cards.length; i++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'carousel-dot';
+        btn.dataset.index = String(i);
+        const titleEl = cards[i].querySelector('.hero-book-title, h3');
+        const shortLabel = titleEl
+          ? titleEl.textContent.trim().slice(0, 22)
+          : `Book ${i + 1}`;
+        btn.textContent = `${i + 1}. ${shortLabel}`;
+        dotsWrap.appendChild(btn);
+      }
+    }
+
+    const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
     let activeIdx = 0;
+    let isProgrammaticScroll = false;
+    let progScrollTimer = null;
 
     function highlightBook(idx, scrollTrack = true) {
       activeIdx = (idx + cards.length) % cards.length;
       cards.forEach((c, i) => c.classList.toggle('carousel-active', i === activeIdx));
       dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+      if (counterBadge) {
+        counterBadge.textContent = `${activeIdx + 1} / ${cards.length}`;
+      }
 
-      if (scrollTrack && track.scrollWidth > track.clientWidth + 10) {
+      if (scrollTrack) {
+        isProgrammaticScroll = true;
+        if (progScrollTimer) clearTimeout(progScrollTimer);
+        progScrollTimer = setTimeout(() => {
+          isProgrammaticScroll = false;
+        }, 480);
+
         const targetCard = cards[activeIdx];
-        const scrollLeft =
+        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+        const centeredLeft =
           targetCard.offsetLeft - (track.clientWidth - targetCard.clientWidth) / 2;
-        track.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+        const targetScroll = Math.max(0, Math.min(maxScroll, centeredLeft));
+        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
       }
     }
 
@@ -911,11 +943,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Update active dot automatically when swiping on mobile
+    // Update active indicator & counter automatically when swiping/scrolling on PC or Mobile
     let scrollTimeout = null;
     track.addEventListener('scroll', () => {
+      if (isProgrammaticScroll) return;
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
+        if (isProgrammaticScroll) return;
+        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+        if (maxScroll > 10 && track.scrollLeft <= 12) {
+          highlightBook(0, false);
+          return;
+        }
+        if (maxScroll > 10 && track.scrollLeft >= maxScroll - 12) {
+          highlightBook(cards.length - 1, false);
+          return;
+        }
         const center = track.scrollLeft + track.clientWidth / 2;
         let closestIdx = 0;
         let minDiff = Infinity;
@@ -928,7 +971,28 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
         highlightBook(closestIdx, false);
-      }, 90);
+      }, 95);
+    });
+
+    // PC Mouse Drag-to-Swipe Support
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    track.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button, a')) return;
+      isDown = true;
+      startX = e.pageX - track.offsetLeft;
+      scrollStart = track.scrollLeft;
+    });
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+    track.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.35;
+      track.scrollLeft = scrollStart - walk;
     });
 
     highlightBook(0, false);
