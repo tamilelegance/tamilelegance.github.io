@@ -974,6 +974,18 @@ document.addEventListener('DOMContentLoaded', () => {
         'assets/previews/bonus_color_p5.jpg'
       ]
     },
+    craft_bookmarks: {
+      title: 'Cut-Out Character Bookmarks Sheet (Free Printable PDF)',
+      pages: [
+        'assets/previews/craft_bookmarks_prev.jpg'
+      ]
+    },
+    craft_puppets: {
+      title: '3D Paper Finger Puppets & Reading Log (Free Printable PDF)',
+      pages: [
+        'assets/previews/craft_puppets_prev.jpg'
+      ]
+    },
     draw: {
       title: 'The Ultimate Drawing & Activity Book: Vol. 1 (58 Pages)',
       pages: [
