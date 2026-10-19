@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 
-  // 1. NIGHT MODE TOGGLE
+  // 1. NIGHT MODE TOGGLE & COLLAPSIBLE MOBILE NAVBAR
   const modeBtn = document.getElementById('mode-toggle-btn');
   if (modeBtn) {
     modeBtn.addEventListener('click', () => {
@@ -152,6 +152,42 @@ document.addEventListener('DOMContentLoaded', () => {
       const isNight = document.body.classList.contains('night-mode');
       modeBtn.textContent = isNight ? 'Sunny Mode' : 'Night Mode';
       playChime();
+    });
+  }
+
+  const mainNavbar = document.getElementById('main-navbar');
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenuLabel = document.getElementById('mobile-menu-label');
+
+  function setMobileMenuOpen(isOpen) {
+    if (!mainNavbar || !mobileMenuToggle) return;
+    mainNavbar.classList.toggle('nav-open', isOpen);
+    mobileMenuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (mobileMenuLabel) {
+      mobileMenuLabel.textContent = isOpen ? 'Close' : 'Menu';
+    }
+  }
+
+  if (mobileMenuToggle && mainNavbar) {
+    mobileMenuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = !mainNavbar.classList.contains('nav-open');
+      setMobileMenuOpen(willOpen);
+      playChime(willOpen ? [523.25, 659.25] : [659.25, 523.25]);
+    });
+
+    // Auto-collapse mobile menu when a section link is clicked
+    mainNavbar.querySelectorAll('.nav-links a').forEach((link) => {
+      link.addEventListener('click', () => {
+        setMobileMenuOpen(false);
+      });
+    });
+
+    // Auto-collapse when tapping outside the navbar on mobile
+    document.addEventListener('click', (e) => {
+      if (mainNavbar.classList.contains('nav-open') && !mainNavbar.contains(e.target)) {
+        setMobileMenuOpen(false);
+      }
     });
   }
 
@@ -1174,12 +1210,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 5. INTERACTIVE ON-SCREEN BONUS COLORING STUDIO
+  // 5. INTERACTIVE ON-SCREEN BONUS COLORING STUDIO (MS PAINT FLOOD FILL + BRUSH)
   // ==========================================================================
   const paintCanvas = document.getElementById('paint-canvas');
-  const pCtx = paintCanvas.getContext('2d');
+  const pCtx = paintCanvas.getContext('2d', { willReadFrequently: true });
   const lineartOverlay = document.getElementById('lineart-overlay');
   const brushSizeInput = document.getElementById('brush-size');
+  const brushSizeWrap = document.getElementById('brush-size-wrap');
+  const toolModeHint = document.getElementById('tool-mode-hint');
 
   function getSafeColoringSrc(srcKey) {
     if (window.COLORING_DATA_URLS && window.COLORING_DATA_URLS[srcKey]) {
@@ -1188,18 +1226,197 @@ document.addEventListener('DOMContentLoaded', () => {
     return srcKey;
   }
 
-  // Initialize with Base64 data URL so file:// never taints the canvas
-  lineartOverlay.src = getSafeColoringSrc('assets/coloring/coloring_1.png');
-
   paintCanvas.width = 900;
   paintCanvas.height = 1200;
   pCtx.fillStyle = '#ffffff';
   pCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
 
+  // Offscreen Line-Art Boundary Mask Canvas so MS Paint Flood Fill respects black outlines
+  const lineartMaskCanvas = document.createElement('canvas');
+  lineartMaskCanvas.width = 900;
+  lineartMaskCanvas.height = 1200;
+  const lineartMaskCtx = lineartMaskCanvas.getContext('2d', { willReadFrequently: true });
+  let cachedLineartData = null;
+
+  function updateLineartMask() {
+    if (!lineartOverlay.complete || lineartOverlay.naturalWidth === 0) return;
+    lineartMaskCtx.fillStyle = '#ffffff';
+    lineartMaskCtx.fillRect(0, 0, 900, 1200);
+    lineartMaskCtx.drawImage(lineartOverlay, 0, 0, 900, 1200);
+    try {
+      cachedLineartData = lineartMaskCtx.getImageData(0, 0, 900, 1200).data;
+    } catch (_) {
+      cachedLineartData = null;
+    }
+  }
+
+  lineartOverlay.addEventListener('load', updateLineartMask);
+  lineartOverlay.src = getSafeColoringSrc('assets/coloring/coloring_1.png');
+  if (lineartOverlay.complete) updateLineartMask();
+
+  let paintToolMode = 'fill'; // 'fill' (MS Paint Bucket) or 'brush' (Crayon)
   let isDrawing = false;
   let brushColor = '#f59e0b';
   let lastX = 0;
   let lastY = 0;
+
+  // Undo History Stack (up to 12 steps)
+  const paintUndoStack = [];
+  function pushPaintUndoState() {
+    try {
+      if (paintUndoStack.length >= 12) paintUndoStack.shift();
+      paintUndoStack.push(pCtx.getImageData(0, 0, paintCanvas.width, paintCanvas.height));
+    } catch (_) {}
+  }
+
+  document.getElementById('undo-paint-btn')?.addEventListener('click', () => {
+    if (paintUndoStack.length > 0) {
+      const prevImgData = paintUndoStack.pop();
+      pCtx.putImageData(prevImgData, 0, 0);
+      playChime([523.25]);
+    }
+  });
+
+  // Switch between MS Paint Fill Bucket and Crayon Brush
+  document.querySelectorAll('.tool-mode-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      paintToolMode = btn.dataset.tool || 'fill';
+      document.querySelectorAll('.tool-mode-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (toolModeHint) {
+        toolModeHint.textContent =
+          paintToolMode === 'fill'
+            ? 'Tap inside any shape to instantly flood-fill it with color!'
+            : 'Drag your finger or mouse to color freely with the crayon brush!';
+      }
+      if (brushSizeWrap) {
+        brushSizeWrap.style.opacity = paintToolMode === 'fill' ? '0.5' : '1';
+      }
+      playChime([659.25]);
+    });
+  });
+
+  function hexToRgbTuple(hex) {
+    const clean = String(hex || '#f59e0b').replace('#', '').trim();
+    const num = parseInt(clean, 16);
+    return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+  }
+
+  // Fast MS Paint-Style Flood Fill respecting black line-art boundaries
+  function floodFillCanvas(rawX, rawY, fillHex) {
+    const W = paintCanvas.width;
+    const H = paintCanvas.height;
+    let sx = Math.max(0, Math.min(W - 1, Math.round(rawX)));
+    let sy = Math.max(0, Math.min(H - 1, Math.round(rawY)));
+
+    if (!cachedLineartData) updateLineartMask();
+    const lineData = cachedLineartData;
+
+    function isLineOutlineWall(pixelIdx) {
+      if (!lineData) return false;
+      const off = pixelIdx * 4;
+      const a = lineData[off + 3];
+      if (a < 80) return false;
+      const lum = lineData[off] * 0.299 + lineData[off + 1] * 0.587 + lineData[off + 2] * 0.114;
+      return lum < 175;
+    }
+
+    // If user tapped directly on a dark outline pixel, nudge up to 5px to nearest open interior pixel
+    if (isLineOutlineWall(sy * W + sx)) {
+      let foundOpen = false;
+      for (let rad = 1; rad <= 5 && !foundOpen; rad++) {
+        for (let dy = -rad; dy <= rad && !foundOpen; dy++) {
+          for (let dx = -rad; dx <= rad && !foundOpen; dx++) {
+            const nx = sx + dx;
+            const ny = sy + dy;
+            if (nx >= 0 && nx < W && ny >= 0 && ny < H && !isLineOutlineWall(ny * W + nx)) {
+              sx = nx;
+              sy = ny;
+              foundOpen = true;
+            }
+          }
+        }
+      }
+      if (!foundOpen) return;
+    }
+
+    const imgData = pCtx.getImageData(0, 0, W, H);
+    const data = imgData.data;
+    const startIdx = sy * W + sx;
+    const startOff = startIdx * 4;
+    const targetR = data[startOff];
+    const targetG = data[startOff + 1];
+    const targetB = data[startOff + 2];
+
+    const [fillR, fillG, fillB] = hexToRgbTuple(fillHex);
+
+    // Avoid redundant fill if tapping an area already filled with the same color
+    if (
+      Math.abs(targetR - fillR) < 4 &&
+      Math.abs(targetG - fillG) < 4 &&
+      Math.abs(targetB - fillB) < 4
+    ) {
+      return;
+    }
+
+    pushPaintUndoState();
+
+    const visited = new Uint8Array(W * H);
+    const queue = new Int32Array(W * H);
+    let qHead = 0;
+    let qTail = 0;
+
+    visited[startIdx] = 1;
+    queue[qTail++] = startIdx;
+
+    function matchesStartColor(pIdx) {
+      const o = pIdx * 4;
+      return (
+        Math.abs(data[o] - targetR) <= 36 &&
+        Math.abs(data[o + 1] - targetG) <= 36 &&
+        Math.abs(data[o + 2] - targetB) <= 36
+      );
+    }
+
+    while (qHead < qTail) {
+      const curr = queue[qHead++];
+      const cOff = curr * 4;
+      data[cOff] = fillR;
+      data[cOff + 1] = fillG;
+      data[cOff + 2] = fillB;
+      data[cOff + 3] = 255;
+
+      const cx = curr % W;
+      const cy = (curr - cx) / W;
+
+      // 4-way neighbors
+      const neighbors = [];
+      if (cx > 0) neighbors.push(curr - 1);
+      if (cx < W - 1) neighbors.push(curr + 1);
+      if (cy > 0) neighbors.push(curr - W);
+      if (cy < H - 1) neighbors.push(curr + W);
+
+      for (let i = 0; i < neighbors.length; i++) {
+        const np = neighbors[i];
+        if (visited[np]) continue;
+        if (isLineOutlineWall(np)) {
+          // Color 1px into the anti-aliased edge under the multiply lineart layer to eliminate white fringe
+          const nOff = np * 4;
+          data[nOff] = fillR;
+          data[nOff + 1] = fillG;
+          data[nOff + 2] = fillB;
+          data[nOff + 3] = 255;
+          visited[np] = 1;
+        } else if (matchesStartColor(np)) {
+          visited[np] = 1;
+          queue[qTail++] = np;
+        }
+      }
+    }
+
+    pCtx.putImageData(imgData, 0, 0);
+    playChime([587.33, 783.99]);
+  }
 
   function getCanvasCoords(e) {
     const rect = paintCanvas.getBoundingClientRect();
@@ -1212,16 +1429,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startPaint(e) {
-    isDrawing = true;
+    if (e.cancelable) e.preventDefault();
     const pos = getCanvasCoords(e);
+    if (paintToolMode === 'fill') {
+      floodFillCanvas(pos.x, pos.y, brushColor);
+      return;
+    }
+    pushPaintUndoState();
+    isDrawing = true;
     lastX = pos.x;
     lastY = pos.y;
     drawStroke(e);
   }
 
   function drawStroke(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
+    if (!isDrawing || paintToolMode !== 'brush') return;
+    if (e.cancelable) e.preventDefault();
     const pos = getCanvasCoords(e);
     pCtx.save();
     pCtx.lineCap = 'round';
@@ -1258,6 +1481,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.page-thumb-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
+      paintUndoStack.length = 0;
       lineartOverlay.src = getSafeColoringSrc(btn.dataset.src);
       pCtx.fillStyle = '#ffffff';
       pCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
@@ -1267,6 +1491,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('clear-canvas-btn').addEventListener('click', () => {
+    pushPaintUndoState();
     pCtx.fillStyle = '#ffffff';
     pCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
   });
@@ -1294,18 +1519,35 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // 6. PROPORTIONAL 1400x990 CERTIFICATE GENERATOR (USES SAFE DATA URI BASE IMAGE)
+  // 6. PROPORTIONAL 1400x990 CERTIFICATE GENERATOR (WITH CUSTOM CAMEL-CASE TITLE)
   // ==========================================================================
   const certCanvas = document.getElementById('cert-canvas');
   const cCtx = certCanvas.getContext('2d');
   const childNameInput = document.getElementById('child-name-input');
   const certAwardSelect = document.getElementById('cert-award-select');
+  const customAwardWrap = document.getElementById('custom-award-wrap');
+  const customAwardInput = document.getElementById('custom-award-input');
   const certCharSelect = document.getElementById('cert-char-select');
 
-  function sanitizeChildName(raw) {
+  function toAutoCamelCase(raw, maxLen = 38) {
     return String(raw || '')
-      .replace(/[<>"'`&/\\]/g, '')
-      .slice(0, 26);
+      .replace(/[<>"'`/\\]/g, '')
+      .slice(0, maxLen)
+      .replace(/\b([a-zA-Z])([a-zA-Z]*)/g, (_, first, rest) => first.toUpperCase() + rest.toLowerCase());
+  }
+
+  function applyLiveCamelCaseInput(inputEl, maxLen) {
+    if (!inputEl) return '';
+    const start = inputEl.selectionStart;
+    const end = inputEl.selectionEnd;
+    const formatted = toAutoCamelCase(inputEl.value, maxLen);
+    if (inputEl.value !== formatted) {
+      inputEl.value = formatted;
+      try {
+        inputEl.setSelectionRange(start, end);
+      } catch (_) {}
+    }
+    return formatted;
   }
 
   const certBaseImg = new Image();
@@ -1315,12 +1557,22 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderCertificate() {
     const W = certCanvas.width; // 1400
     const H = certCanvas.height; // 990
-    const cleanInput = sanitizeChildName(childNameInput.value);
-    if (childNameInput.value !== cleanInput) {
-      childNameInput.value = cleanInput;
+    const cleanName = applyLiveCamelCaseInput(childNameInput, 26);
+    const childName = cleanName.trim() || 'Young Explorer';
+
+    const isCustomAward = certAwardSelect.value === 'custom';
+    if (customAwardWrap) {
+      customAwardWrap.style.display = isCustomAward ? 'block' : 'none';
     }
-    const childName = cleanInput.trim() || 'Young Explorer';
-    const awardTitle = certAwardSelect.value;
+
+    let awardTitle = certAwardSelect.value;
+    if (isCustomAward && customAwardInput) {
+      const cleanCustom = applyLiveCamelCaseInput(customAwardInput, 38);
+      awardTitle = cleanCustom.trim() || 'Super Star Explorer Award';
+    } else {
+      awardTitle = toAutoCamelCase(awardTitle, 44);
+    }
+
     const favChar = certCharSelect.value;
 
     cCtx.clearRect(0, 0, W, H);
@@ -1334,10 +1586,15 @@ document.addEventListener('DOMContentLoaded', () => {
     cCtx.textAlign = 'center';
     cCtx.textBaseline = 'middle';
 
-    // Award Title (Y = 198)
+    // Award Title (Y = 198, rendered in Auto Camel Case & auto-scaled to fit banner)
     cCtx.fillStyle = '#b45309';
-    cCtx.font = 'bold 42px Georgia, serif';
-    cCtx.fillText(awardTitle.toUpperCase(), W / 2, 198);
+    let titleFontSize = 42;
+    cCtx.font = `bold ${titleFontSize}px Georgia, serif`;
+    while (cCtx.measureText(awardTitle).width > 940 && titleFontSize > 28) {
+      titleFontSize -= 2;
+      cCtx.font = `bold ${titleFontSize}px Georgia, serif`;
+    }
+    cCtx.fillText(awardTitle, W / 2, 198);
 
     // Child's Name (Y = 322)
     cCtx.fillStyle = '#ea580c';
@@ -1377,14 +1634,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   childNameInput.addEventListener('input', renderCertificate);
-  certAwardSelect.addEventListener('change', renderCertificate);
+  certAwardSelect.addEventListener('change', () => {
+    renderCertificate();
+    if (certAwardSelect.value === 'custom' && customAwardInput) {
+      customAwardInput.focus();
+    }
+  });
+  customAwardInput?.addEventListener('input', renderCertificate);
   certCharSelect.addEventListener('change', renderCertificate);
   renderCertificate();
 
   const downloadCertBtn = document.getElementById('download-cert-btn');
   downloadCertBtn.addEventListener('click', () => {
     renderCertificate();
-    const safeFileSlug = (sanitizeChildName(childNameInput.value).trim() || 'Explorer')
+    const safeFileSlug = (toAutoCamelCase(childNameInput.value, 26).trim() || 'Explorer')
       .replace(/[^a-zA-Z0-9_-]+/g, '_');
     triggerCanvasPngDownload(
       certCanvas,

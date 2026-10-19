@@ -16,35 +16,45 @@
 </head>
 <body>
 
-  <!-- Sticky Navigation Bar -->
-  <header class="navbar">
-    <a href="#" class="brand-logo">
-      <img src="assets/characters/nano_token.png" alt="Nano Logo" />
-      <span>Nano &amp; Friends Clubhouse</span>
-    </a>
-
-    <ul class="nav-links">
-      <li><a href="#books">Our Books</a></li>
-      <li><a href="#games">Play Games</a></li>
-      <li><a href="#coloring-studio">Bonus Coloring</a></li>
-      <li><a href="#free-crafts">Bonus Story &amp; Crafts</a></li>
-      <li><a href="#certificate">Certificate</a></li>
-    </ul>
-
-    <div class="nav-actions">
-      <a href="https://www.youtube.com/@TamilElegance" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-yt" title="Watch Nano & Friends on YouTube (@TamilElegance)">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-        <span>YouTube</span>
+  <!-- Sticky Navigation Bar (Collapsible on Mobile) -->
+  <header class="navbar" id="main-navbar">
+    <div class="navbar-top-bar">
+      <a href="#" class="brand-logo">
+        <img src="assets/characters/nano_token.png" alt="Nano Logo" />
+        <span>Nano &amp; Friends Clubhouse</span>
       </a>
-      <a href="https://www.instagram.com/tamil.elegance/" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-ig" title="Follow @tamil.elegance on Instagram">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.2.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.2-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8 0-3.2 0-3.6.1-4.8.1-3.2 1.7-4.8 4.9-4.9 1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg>
-        <span>Instagram</span>
-      </a>
-      <div class="star-counter-pill" title="Play games, color pages & read bonus stories to earn Explorer Stars!">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3 1.2-6.8-5-4.9 6.9-1z"/></svg>
-        <span>Stars: <strong id="star-count-display">5</strong></span>
+
+      <button type="button" id="mobile-menu-toggle" class="mobile-menu-btn" aria-expanded="false" aria-controls="nav-collapsible-menu" aria-label="Toggle Navigation Menu">
+        <svg class="menu-icon-bars" viewBox="0 0 24 24"><path d="M3 6h18v2.5H3V6zm0 5.25h18v2.5H3v-2.5zM3 16.5h18V19H3v-2.5z"/></svg>
+        <svg class="menu-icon-close" viewBox="0 0 24 24"><path d="M18.3 5.71L12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29 10.59 10.6l6.3-6.31z"/></svg>
+        <span id="mobile-menu-label">Menu</span>
+      </button>
+    </div>
+
+    <div id="nav-collapsible-menu" class="nav-collapsible">
+      <ul class="nav-links">
+        <li><a href="#books">Our Books</a></li>
+        <li><a href="#games">Play Games</a></li>
+        <li><a href="#coloring-studio">Bonus Coloring</a></li>
+        <li><a href="#free-crafts">Bonus Story &amp; Crafts</a></li>
+        <li><a href="#certificate">Certificate</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://www.youtube.com/@TamilElegance" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-yt" title="Watch Nano & Friends on YouTube (@TamilElegance)">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          <span>YouTube</span>
+        </a>
+        <a href="https://www.instagram.com/tamil.elegance/" target="_blank" rel="noopener noreferrer" class="social-nav-btn social-ig" title="Follow @tamil.elegance on Instagram">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.2.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.2-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8 0-3.2 0-3.6.1-4.8.1-3.2 1.7-4.8 4.9-4.9 1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg>
+          <span>Instagram</span>
+        </a>
+        <div class="star-counter-pill" title="Play games, color pages & read bonus stories to earn Explorer Stars!">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <span>Stars: <strong id="star-count-display">5</strong></span>
+        </div>
+        <button id="mode-toggle-btn" class="mode-btn">Night Mode</button>
       </div>
-      <button id="mode-toggle-btn" class="mode-btn">Night Mode</button>
     </div>
   </header>
 
@@ -393,7 +403,24 @@
         </div>
 
         <div>
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.05rem;">2. Pick a Crayon Color:</h3>
+          <h3 style="margin-bottom: 0.45rem; font-size: 1.05rem;">2. Choose Paint Tool:</h3>
+          <div class="paint-tool-toggle" role="group" aria-label="Coloring Tool Mode">
+            <button type="button" class="tool-mode-btn active" data-tool="fill" id="tool-fill-btn" title="Tap any area to instantly fill it with color like MS Paint!">
+              <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 0 0 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/></svg>
+              <span>Fill Bucket</span>
+            </button>
+            <button type="button" class="tool-mode-btn" data-tool="brush" id="tool-brush-btn" title="Freehand Crayon Brush">
+              <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>
+              <span>Crayon Brush</span>
+            </button>
+          </div>
+          <p id="tool-mode-hint" style="font-size: 0.78rem; color: var(--teal); font-weight: 800; margin-top: 0.35rem;">
+            Tap inside any shape to instantly flood-fill it with color!
+          </p>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.05rem;">3. Pick a Color:</h3>
           <div class="crayon-palette">
             <button class="crayon-swatch active" style="background: #f59e0b;" data-color="#f59e0b" title="Golden Honey"></button>
             <button class="crayon-swatch" style="background: #ea580c;" data-color="#ea580c" title="Nano Orange"></button>
@@ -406,24 +433,29 @@
             <button class="crayon-swatch" style="background: #84cc16;" data-color="#84cc16" title="Meadow Green"></button>
             <button class="crayon-swatch" style="background: #fde047;" data-color="#fde047" title="Sunshine Yellow"></button>
             <button class="crayon-swatch" style="background: #a16207;" data-color="#a16207" title="Woodland Brown"></button>
-            <button class="crayon-swatch" style="background: #ffffff; color: #333;" data-color="#ffffff" title="Eraser">ERASE</button>
+            <button class="crayon-swatch" style="background: #ffffff; color: #333;" data-color="#ffffff" title="White / Eraser">WHITE</button>
           </div>
         </div>
 
-        <div>
+        <div id="brush-size-wrap">
           <label for="brush-size" style="font-weight: 800; display: block; margin-bottom: 0.35rem;">
-            3. Crayon Size:
+            4. Crayon Brush Size:
           </label>
           <input id="brush-size" type="range" min="8" max="64" value="28" style="width: 100%; accent-color: var(--coral);" />
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.55rem;">
           <button id="save-artwork-btn" class="btn btn-primary">
             Save My Colored Page (PNG)
           </button>
-          <button id="clear-canvas-btn" class="btn btn-secondary">
-            Start Fresh / Clear
-          </button>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+            <button type="button" id="undo-paint-btn" class="btn btn-secondary" style="padding: 0.65rem 0.6rem; font-size: 0.85rem;">
+              &larr; Undo
+            </button>
+            <button type="button" id="clear-canvas-btn" class="btn btn-secondary" style="padding: 0.65rem 0.6rem; font-size: 0.85rem;">
+              Clear All
+            </button>
+          </div>
         </div>
       </div>
 
@@ -630,7 +662,13 @@
             <option value="Super Artist &amp; Master Colorist">Super Artist &amp; Master Colorist</option>
             <option value="Coral Bay Star Reader Award">Coral Bay Star Reader Award</option>
             <option value="Kindness &amp; Friendship Champion">Kindness &amp; Friendship Champion</option>
+            <option value="custom">Custom (Enter Your Own Title...)</option>
           </select>
+        </div>
+
+        <div id="custom-award-wrap" style="display: none;">
+          <label for="custom-award-input">Custom Certificate Title (Auto Camel Case):</label>
+          <input id="custom-award-input" type="text" placeholder="e.g. Little Genius &amp; Super Star" value="Super Star Explorer Award" maxlength="38" autocomplete="off" />
         </div>
 
         <div>
