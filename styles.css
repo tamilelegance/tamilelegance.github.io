@@ -1026,21 +1026,50 @@ body.night-mode .section-header h2 {
 
 .crayon-palette {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.42rem;
 }
 
 .crayon-swatch {
-  height: 38px;
-  border-radius: 10px;
-  border: 3px solid rgba(0,0,0,0.12);
+  height: 36px;
+  border-radius: 9px;
+  border: 2.5px solid rgba(0, 0, 0, 0.16);
   cursor: pointer;
   font-weight: 800;
-  font-size: 0.72rem;
+  font-size: 0.65rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.crayon-swatch:hover {
+  transform: scale(1.08);
 }
 .crayon-swatch.active {
-  transform: scale(1.1);
+  transform: scale(1.13);
   border-color: #111;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--coral);
+  z-index: 2;
+}
+
+.custom-color-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.55rem;
+  padding: 6px 10px;
+  background: var(--bg-soft);
+  border-radius: 10px;
+  border: 1.5px solid rgba(91, 44, 111, 0.18);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.custom-color-bar input[type="color"] {
+  width: 42px;
+  height: 28px;
+  border: 2px solid var(--plum);
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  background: none;
 }
 
 .canvas-stage {

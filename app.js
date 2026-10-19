@@ -1471,13 +1471,32 @@ document.addEventListener('DOMContentLoaded', () => {
   paintCanvas.addEventListener('touchmove', drawStroke, { passive: false });
   window.addEventListener('touchend', stopPaint);
 
+  const activeColorLabel = document.getElementById('active-color-label');
+  const customCrayonPicker = document.getElementById('custom-crayon-picker');
+
   document.querySelectorAll('.crayon-swatch').forEach((sw) => {
     sw.addEventListener('click', () => {
       brushColor = sw.dataset.color;
       document.querySelectorAll('.crayon-swatch').forEach((s) => s.classList.remove('active'));
       sw.classList.add('active');
+      if (activeColorLabel) {
+        activeColorLabel.textContent = sw.dataset.name || sw.title || brushColor;
+      }
+      if (customCrayonPicker) {
+        customCrayonPicker.value = brushColor;
+      }
     });
   });
+
+  if (customCrayonPicker) {
+    customCrayonPicker.addEventListener('input', () => {
+      brushColor = customCrayonPicker.value;
+      document.querySelectorAll('.crayon-swatch').forEach((s) => s.classList.remove('active'));
+      if (activeColorLabel) {
+        activeColorLabel.textContent = `Custom (${brushColor.toUpperCase()})`;
+      }
+    });
+  }
 
   document.querySelectorAll('.page-thumb-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
